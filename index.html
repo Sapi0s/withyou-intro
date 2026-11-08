@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>With You 앱 소개</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Outfit:wght@600;800&display=swap">
+<style>
+/* Layout: single mobile-first column (QR scan → phone). Palette taken from the app design mockups (design/*.svg):
+   app ground #F1F0F0, white cards, orange CTA #F9A811 / logo #FFB743 / light #FFCA60, text #222222, secondary #8E8E93,
+   divider #E7E7E7, navy #182964 only for small badges, soft tints #FEF8E4 / #E9E6E0. */
+:root{
+  --bg:#F1F0F0;          /* app screen ground */
+  --bg-band:#FFFFFF;     /* white band, like app cards */
+  --card:#FFFFFF;
+  --card-alt:#FAFAFA;    /* card on a white band */
+  --ink:#222222;         /* headline (design primary text) */
+  --fg:#333333;          /* body text */
+  --muted:#8E8E93;       /* secondary text */
+  --accent:#F9A811;      /* CTA orange */
+  --accent-light:#FFB743;/* logo orange */
+  --accent-deep:#D98E00; /* orange as text on white */
+  --accent-soft:#FEF8E4; /* yellow tint */
+  --accent-pale:#FFCA60;
+  --line:#E7E7E7;
+  --tint:#E9E6E0;        /* warm grey tag */
+  --navy-card:#182964;
+  --navy-fg:#FFFFFF;
+  --on-accent:#222222;
+  --font-body:"Pretendard","Noto Sans KR",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --font-display:"Outfit","Pretendard","Noto Sans KR",sans-serif;
+  --radius:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111111; --bg-band:#1A1A1A; --card:#222222; --card-alt:#262626; --ink:#F5F5F5; --fg:#E7E7E7; --muted:#9A9AA0;
+    --accent:#F9A811; --accent-light:#FFB743; --accent-deep:#FFC14D; --accent-soft:#3A2E14; --accent-pale:#FFCA60;
+    --line:#333333; --tint:#2E2C28; --navy-card:#182964; --navy-fg:#FFFFFF; --on-accent:#1A1A1A;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111111; --bg-band:#1A1A1A; --card:#222222; --card-alt:#262626; --ink:#F5F5F5; --fg:#E7E7E7; --muted:#9A9AA0;
+  --accent:#F9A811; --accent-light:#FFB743; --accent-deep:#FFC14D; --accent-soft:#3A2E14; --accent-pale:#FFCA60;
+  --line:#333333; --tint:#2E2C28; --navy-card:#182964; --navy-fg:#FFFFFF; --on-accent:#1A1A1A;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.topbar{height:6px;background:var(--accent)}
+.wrap{max-width:720px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+section{padding-block:40px}
+h1,h2,h3{color:var(--ink);text-wrap:balance;margin:0;line-height:1.25}
+h2{font-size:1.5rem;font-weight:900;margin-bottom:6px}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-deep);margin-bottom:10px}
+.lead{color:var(--muted);margin:0 0 24px;font-size:.98rem}
+p{margin:0}
+
+/* hero */
+.hero{padding-block:36px 0}
+.hero .wrap{display:grid;grid-template-columns:1fr;gap:28px;align-items:end}
+.hero h1{font-size:clamp(1.9rem,6.5vw,2.8rem);font-weight:900}
+.hero h1 .en{font-family:var(--font-display);font-weight:800;color:var(--accent-deep);display:block;font-size:1.15em;letter-spacing:-.01em}
+.hero .sub{margin-top:16px;font-size:1.05rem;font-weight:500;color:var(--fg)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:700;color:var(--ink)}
+.chip.gold{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.phone{justify-self:center;width:min(290px,78vw);filter:drop-shadow(0 18px 30px rgba(0,0,0,.18));margin-bottom:-8px}
+.phone img{display:block;width:100%;height:auto}
+@media (min-width:640px){
+  .hero .wrap{grid-template-columns:1.2fr .8fr;gap:24px}
+  .phone{width:100%;max-width:300px}
+}
+
+/* stats band */
+.band{background:var(--bg-band)}
+.stats{display:grid;grid-template-columns:1fr;gap:12px}
+@media (min-width:560px){.stats{grid-template-columns:repeat(3,1fr)}}
+.stat{background:var(--card);border-radius:var(--radius);padding:18px 18px 16px;border:1px solid var(--line);min-width:0}
+.band .stat,.band .step,.band .feature:not(.gold),.band .quote,.band .member{background:var(--card-alt)}
+.stat .num{font-family:var(--font-display);font-weight:800;font-size:1.9rem;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.stat .num small{font-size:.6em;font-weight:700;color:var(--accent-deep);margin-left:4px}
+.stat .label{font-weight:700;margin-top:6px;font-size:.95rem}
+.stat .src{color:var(--muted);font-size:.78rem;margin-top:6px}
+
+/* features */
+.features{display:grid;grid-template-columns:1fr;gap:14px}
+@media (min-width:640px){.features{grid-template-columns:1fr 1fr}}
+.feature{border-radius:var(--radius);padding:22px 20px;border:1px solid var(--line);background:var(--card);min-width:0}
+.feature.gold{background:var(--accent-soft);border-color:var(--accent-pale)}
+.feature .tag{font-family:var(--font-display);font-weight:800;color:var(--accent-deep);font-size:.95rem;letter-spacing:.06em}
+.feature h3{font-size:1.25rem;font-weight:900;margin:4px 0 12px}
+.feature ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.feature li{padding-left:18px;position:relative;font-size:.95rem}
+.feature li::before{content:"";position:absolute;left:0;top:.6em;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.feature .effect{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:.9rem;color:var(--muted)}
+.feature .effect b{color:var(--ink)}
+
+/* flow */
+.flow{display:grid;grid-template-columns:1fr;gap:10px;counter-reset:step}
+@media (min-width:640px){.flow{grid-template-columns:repeat(4,1fr)}}
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:12px;align-items:flex-start;min-width:0}
+@media (min-width:640px){.step{flex-direction:column;gap:10px}}
+.step .n{counter-increment:step;flex:none;width:32px;height:32px;border-radius:50%;background:var(--navy-card);color:var(--navy-fg);display:grid;place-items:center;font-family:var(--font-display);font-weight:800}
+.step .n::before{content:counter(step)}
+.step b{display:block;color:var(--ink);font-size:.98rem}
+.step span{color:var(--muted);font-size:.86rem}
+
+/* validation */
+.proof{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (min-width:640px){.proof{grid-template-columns:repeat(4,1fr)}}
+.proof .item{background:var(--navy-card);color:var(--navy-fg);border-radius:14px;padding:16px 14px;min-width:0}
+.proof .num{font-family:var(--font-display);font-weight:800;font-size:1.6rem;color:var(--accent-light);font-variant-numeric:tabular-nums;line-height:1.1}
+.proof .label{font-size:.84rem;margin-top:6px;opacity:.92}
+.quote{margin-top:16px;padding:18px 20px;background:var(--card);border-left:4px solid var(--accent);border-radius:0 14px 14px 0;font-size:.98rem}
+.quote cite{display:block;font-style:normal;color:var(--muted);font-size:.84rem;margin-top:6px}
+
+/* timeline */
+.timeline{display:grid;gap:0;border-left:2px solid var(--line);margin-left:6px}
+.tl{position:relative;padding:0 0 18px 20px}
+.tl::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2px solid var(--bg-band)}
+.tl time{font-family:var(--font-display);font-weight:800;color:var(--accent-deep);font-size:.9rem;letter-spacing:.03em}
+.tl b{display:block;color:var(--ink)}
+.tl span{color:var(--muted);font-size:.88rem}
+
+/* team */
+.team{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:560px){.team{grid-template-columns:1fr 1fr}}
+.member{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;min-width:0}
+.avatar{flex:none;width:44px;height:44px;border-radius:50%;background:var(--tint);color:var(--ink);display:grid;place-items:center;font-weight:900;font-size:1.05rem;border:1px solid var(--line)}
+.member b{display:block;color:var(--ink)}
+.member span{color:var(--muted);font-size:.86rem}
+.awards{margin-top:18px;display:grid;gap:8px}
+.award{display:flex;gap:10px;align-items:baseline;font-size:.92rem}
+.award time{flex:none;font-family:var(--font-display);font-weight:800;color:var(--accent-deep);width:72px;font-variant-numeric:tabular-nums}
+
+/* footer */
+footer{padding-block:32px 40px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem}
+footer .brand{font-family:var(--font-display);font-weight:800;color:var(--ink);font-size:1.1rem}
+footer .brand em{font-style:normal;color:var(--accent-deep)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%}
+</style>
+<meta name="description" content="이주노동의 마침표, 이주민 권리보호 서비스 With You. AI 다국어 상담 챗봇과 GPS 근태기록으로 이주민 권리를 보호합니다. Team 온기">
+<meta property="og:title" content="With You 앱 소개">
+<meta property="og:description" content="AI 상담챗봇 × GPS 근태기록으로 이주민 권리를 보호하고 행정을 단축합니다.">
+<meta property="og:image" content="app-screen.png">
+</head>
+<body>
+<div class="topbar" aria-hidden="true"></div>
+
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Team 온기 · 이주민 권리보호 서비스</span>
+      <h1>이주노동의 마침표,<br>이주민 권리보호 서비스<span class="en">With You</span></h1>
+      <p class="sub">AI 상담챗봇 × GPS 근태기록으로<br>이주민 권리를 보호하고 행정을 단축합니다.</p>
+      <div class="chips">
+        <span class="chip gold">iOS 앱스토어 심사 예정</span>
+        <span class="chip">2026년 11월 정식 출시 목표</span>
+        <span class="chip">한국어·영어 지원, 19개 언어 확대 예정</span>
+      </div>
+    </div>
+    <figure class="phone">
+      <img src="app-screen.png" alt="With You 앱 메인 화면: 하루 노트, 근무 인증, 8월 총 급여, 출·퇴근 체크 카드가 보인다" width="1287" height="2664">
+    </figure>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Why</span>
+    <h2>외국인 노동자는 늘고, 체불은 더 빠르게 늘었다</h2>
+    <p class="lead">체불을 겪어도 증거가 없고, 어디에 도움을 청해야 할지 모르는 현장의 문제에서 출발했습니다.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="num">110만 9천명</div>
+        <div class="label">국내 외국인 취업자 수</div>
+        <div class="src">2022년 약 84만명 → 2025년 110만 9천명 · 국가데이터처·법무부(2025)</div>
+      </div>
+      <div class="stat">
+        <div class="num">1,548억<small>+43.6%</small></div>
+        <div class="label">외국인 노동자 임금체불액</div>
+        <div class="src">2024 → 2025, 1년 만에 43.6% 증가 · 전체 체불 증가율(+3.0%)의 약 14배</div>
+      </div>
+      <div class="stat">
+        <div class="num">3배 이상</div>
+        <div class="label">이주노동자 임금체불 경험률</div>
+        <div class="src">이주노동자 3.53% vs 전체 노동자 1.11% · 국가인권위원회(2023)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Solution</span>
+    <h2>FIND &amp; PROVE, 두 가지 핵심 기능</h2>
+    <p class="lead">정보를 찾고(FIND), 근로를 증명합니다(PROVE). 두 모듈 모두 실제 개발이 완료되었습니다.</p>
+    <div class="features">
+      <article class="feature gold">
+        <div class="tag">FIND</div>
+        <h3>AI 다국어 상담 챗봇</h3>
+        <ul>
+          <li>24시간 실시간 다국어 노동법·행정 안내</li>
+          <li>위치 기반으로 나에게 맞는 지원기관 연결 (RAG)</li>
+          <li>법령·언어 장벽 없이 정확한 정보 제공</li>
+        </ul>
+        <p class="effect"><b>효과</b> 통번역·1차 상담 수요 분산</p>
+      </article>
+      <article class="feature">
+        <div class="tag">PROVE</div>
+        <h3>GPS 근태기록기</h3>
+        <ul>
+          <li>사업주 협조 없이 쓰는 객관적 근로 증빙</li>
+          <li>200m 지오펜스 기반 출·퇴근 체크</li>
+          <li>위치·시각이 결합된 근무 인증 사진</li>
+          <li>PDF 근로내역서 자동 생성</li>
+        </ul>
+        <p class="effect"><b>효과</b> 사후 분쟁 처리 시간 단축</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">How it works</span>
+    <h2>이렇게 사용합니다</h2>
+    <p class="lead">하루 1분, 출근과 퇴근 때 버튼 한 번이면 증거가 쌓입니다.</p>
+    <div class="flow">
+      <div class="step"><div class="n"></div><div><b>근무지 등록</b><span>일하는 장소를 지도에서 한 번만 등록합니다.</span></div></div>
+      <div class="step"><div class="n"></div><div><b>출근·퇴근 체크</b><span>근무지 200m 안에서만 기록되는 지오펜스 방식입니다.</span></div></div>
+      <div class="step"><div class="n"></div><div><b>근무 인증 사진</b><span>위치와 시각이 함께 찍혀 증거력이 생깁니다.</span></div></div>
+      <div class="step"><div class="n"></div><div><b>PDF 근로내역서</b><span>월별 근무·임금 기록을 문서로 내보내 제출합니다.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Validation</span>
+    <h2>현장에서 먼저 확인했습니다</h2>
+    <p class="lead">이주민센터와 협업해 이주노동자 100인 규모로 서비스를 검증했습니다.</p>
+    <div class="proof">
+      <div class="item"><div class="num">약 100명</div><div class="label">이주민·관리자 대면 시연</div></div>
+      <div class="item"><div class="num">21명</div><div class="label">베타테스트 참여 요청</div></div>
+      <div class="item"><div class="num">100%</div><div class="label">랜딩페이지 설문 유료 의향</div></div>
+      <div class="item"><div class="num">4,250원</div><div class="label">평균 지불 희망가(월)</div></div>
+    </div>
+    <blockquote class="quote">
+      “완성된다면 우리 센터에서도 보급하고 싶다”
+      <cite>감사와동행 등 이주노동자센터·활동계 반응</cite>
+    </blockquote>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <span class="eyebrow">Milestone</span>
+    <h2>설계에서 구축으로, 3개월의 실행</h2>
+    <p class="lead">&nbsp;</p>
+    <div class="timeline">
+      <div class="tl"><time>2026.07–08</time><b>MVP 구축</b><span>FIND·PROVE 핵심 기능 동작, 한국어·영어 지원 MVP 완성</span></div>
+      <div class="tl"><time>2026.09</time><b>현장 PoC</b><span>세계문화축제 부스 시연, 100명 규모 이주민 대상 서비스 소개</span></div>
+      <div class="tl"><time>2026.09–10</time><b>검증·자문</b><span>노무사 2인 자문 반영, 피드백 기반 UI·번역 개선</span></div>
+      <div class="tl"><time>2026.10–11</time><b>출시 준비</b><span>iOS 앱스토어 심사 예정, 11월 정식 출시 목표</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="eyebrow">Team 온기</span>
+    <h2>기획·개발·디자인을 갖춘 5인</h2>
+    <p class="lead">연세대학교 학생 창업팀입니다. 1년간 팀 운영과 현장 검증을 거쳐 서비스를 만들고 있습니다.</p>
+    <div class="team">
+      <div class="member"><div class="avatar">정</div><div><b>정민재 · 팀장 / 기획</b><span>사회학과 · 팀 운영·현장 검증·사업계획 주도</span></div></div>
+      <div class="member"><div class="avatar">이</div><div><b>이우주 · 기획 / 대외협력</b><span>경영학부 · 기관 컨택·마케팅</span></div></div>
+      <div class="member"><div class="avatar">오</div><div><b>오윤서 · 개발</b><span>전기전자공학부 · 앱 출시·해커톤·외주 개발 경험</span></div></div>
+      <div class="member"><div class="avatar">신</div><div><b>신지환 · 유틸리티 플레이어</b><span>전기전자공학부 · 기획·디자인·개발 다학제, AI 활용</span></div></div>
+      <div class="member"><div class="avatar">신</div><div><b>신재윤 · 디자인</b><span>통합디자인학부 · 피칭덱·UI 제작</span></div></div>
+    </div>
+    <div class="awards">
+      <div class="award"><time>2025.04</time><span>연세대 RC 창의플랫폼 완주</span></div>
+      <div class="award"><time>2026.01</time><span>고등교육혁신원 Winter Workstation 우수상 (SDGs 문제정의 + PMF 검증)</span></div>
+      <div class="award"><time>2026.05</time><span>LOOKIE YONSEI AIM 시드머니 라운드 1위</span></div>
+      <div class="award"><time>현재</time><span>LBS 스타트업 챌린지 (컨설팅·개발 지원) · 모두의창업 2기 선정</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand">With <em>You</em> · Team 온기</div>
+    <p>이주노동의 마침표, 이주민 권리보호 서비스. LBS 스타트업 챌린지(아이디어 분야) 참가팀.</p>
+  </div>
+</footer>
+</body>
+</html>
