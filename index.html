@@ -90,7 +90,9 @@ p{margin:0}
 /* features */
 .features{display:grid;grid-template-columns:1fr;gap:14px}
 @media (min-width:640px){.features{grid-template-columns:1fr 1fr}}
-.feature{border-radius:var(--radius);padding:22px 20px;border:1px solid var(--line);background:var(--card);min-width:0}
+.feature{border-radius:var(--radius);padding:22px 20px;border:1px solid var(--line);background:var(--card);min-width:0;display:flex;flex-direction:column}
+.feature .shot{margin:auto 0 0;padding-top:22px;display:flex;justify-content:center}
+.feature .shot img{display:block;width:min(230px,72%);height:auto;filter:drop-shadow(0 14px 24px rgba(0,0,0,.16))}
 .feature.gold{background:var(--accent-soft);border-color:var(--accent-pale)}
 .feature .tag{font-family:var(--font-display);font-weight:800;color:var(--accent-deep);font-size:.95rem;letter-spacing:.06em}
 .feature h3{font-size:1.25rem;font-weight:900;margin:4px 0 12px}
@@ -134,6 +136,10 @@ p{margin:0}
 .avatar{flex:none;width:44px;height:44px;border-radius:50%;background:var(--tint);color:var(--ink);display:grid;place-items:center;font-weight:900;font-size:1.05rem;border:1px solid var(--line)}
 .member b{display:block;color:var(--ink)}
 .member span{color:var(--muted);font-size:.86rem}
+.team-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.team-head .logo{width:64px;height:auto;flex:none}
+.team-head .logo path{fill:var(--accent-light)}
+.team-head .eyebrow{margin-bottom:0}
 .awards{margin-top:18px;display:grid;gap:8px}
 .award{display:flex;gap:10px;align-items:baseline;font-size:.92rem}
 .award time{flex:none;font-family:var(--font-display);font-weight:800;color:var(--accent-deep);width:72px;font-variant-numeric:tabular-nums}
@@ -214,6 +220,7 @@ img{max-width:100%}
           <li>법령·언어 장벽 없이 정확한 정보 제공</li>
         </ul>
         <p class="effect"><b>효과</b> 통번역·1차 상담 수요 분산</p>
+        <figure class="shot"><img src="feature-find.png" alt="AI 노동 상담 챗봇 화면: 현재 위치 기준으로 수원시 임금체불 상담 기관 세 곳을 전화번호·길찾기 버튼과 함께 안내한다" width="858" height="1776" loading="lazy"></figure>
       </article>
       <article class="feature">
         <div class="tag">PROVE</div>
@@ -225,6 +232,7 @@ img{max-width:100%}
           <li>PDF 근로내역서 자동 생성</li>
         </ul>
         <p class="effect"><b>효과</b> 사후 분쟁 처리 시간 단축</p>
+        <figure class="shot"><img src="feature-prove.png" alt="근무장소 설정 화면: 지도 위 핀을 중심으로 주황색 지오펜스 반경이 표시되고, 아래에 50m에서 300m까지 조절하는 근무 반경 슬라이더가 있다" width="858" height="1776" loading="lazy"></figure>
       </article>
     </div>
   </div>
@@ -278,7 +286,18 @@ img{max-width:100%}
 
 <section>
   <div class="wrap">
-    <span class="eyebrow">Team 온기</span>
+    <div class="team-head">
+      <svg class="logo" viewBox="0 0 82 57" role="img" aria-label="With You 로고" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.00108641 5.83368V38.9457C0.00108641 40.0784 0.176095 41.2024 0.526111 42.28C1.84574 46.3435 6.08941 55.4058 17.9541 56.8674C17.9541 56.8674 29.0927 58.5998 35.7951 49.5376V23.024L30.0144 25.8491V34.3623C30.0144 36.1724 29.5731 37.9587 28.6959 39.5455C27.4111 41.8701 25.087 44.6327 21.301 44.6327C16.3997 44.6327 13.9963 42.3415 12.7125 39.6523C12.0484 38.2618 11.7505 36.7258 11.7505 35.1864V5.79053L0 5.83368H0.00108641Z"/>
+        <path d="M5.87649 11.6242C9.12132 11.6242 11.7518 9.02201 11.7518 5.81208C11.7518 2.60216 9.12132 0 5.87649 0C2.63167 0 0.0012207 2.60216 0.0012207 5.81208C0.0012207 9.02201 2.63167 11.6242 5.87649 11.6242Z"/>
+        <path d="M35.795 15.706C38.9827 15.706 41.567 13.1493 41.567 9.99536C41.567 6.84143 38.9827 4.28467 35.795 4.28467C32.6072 4.28467 30.0229 6.84143 30.0229 9.99536C30.0229 13.1493 32.6072 15.706 35.795 15.706Z"/>
+        <path d="M71.5817 5.83368V38.9457C71.5817 40.0784 71.4067 41.2024 71.0566 42.28C69.737 46.3435 65.4933 55.4058 53.6286 56.8674C53.6286 56.8674 42.4901 58.5998 35.7876 49.5376V23.024L41.5683 25.8491V34.3623C41.5683 36.1724 42.0096 37.9587 42.8868 39.5455C44.1717 41.8701 46.4957 44.6327 50.2818 44.6327C55.1831 44.6327 57.5864 42.3415 58.8702 39.6523C59.5344 38.2618 59.8322 36.7258 59.8322 35.1864V5.79053L71.5827 5.83368H71.5817Z"/>
+        <path d="M65.7063 11.6242C68.9511 11.6242 71.5816 9.02201 71.5816 5.81208C71.5816 2.60216 68.9511 0 65.7063 0C62.4615 0 59.8311 2.60216 59.8311 5.81208C59.8311 9.02201 62.4615 11.6242 65.7063 11.6242Z"/>
+        <path d="M35.792 31.7106C38.9822 31.7106 41.5683 29.1084 41.5683 25.8985C41.5683 22.6886 38.9822 20.0864 35.792 20.0864C32.6018 20.0864 30.0156 22.6886 30.0156 25.8985C30.0156 29.1084 32.6018 31.7106 35.792 31.7106Z"/>
+        <path d="M75.7711 20.0864H55.642C52.6847 20.0864 50.2874 22.4652 50.2874 25.3996C50.2874 28.334 52.6847 30.7128 55.642 30.7128H75.7711C78.7284 30.7128 81.1257 28.334 81.1257 25.3996C81.1257 22.4652 78.7284 20.0864 75.7711 20.0864Z"/>
+      </svg>
+      <span class="eyebrow">Team 온기</span>
+    </div>
     <h2>기획·개발·디자인을 갖춘 5인</h2>
     <p class="lead">연세대학교 학생 창업팀입니다. 1년간 팀 운영과 현장 검증을 거쳐 서비스를 만들고 있습니다.</p>
     <div class="team">
